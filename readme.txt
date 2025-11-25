@@ -40,3 +40,12 @@ PyCharm, venv, funcții, importuri între fișiere, buclă while, try/except,
 un API apelat cu requests, tratat erori etc.
 
 Nu e ceva foarte complicat, dar ne-am atins obiectivele.
+
+Documentatie + un paragraf + impartim modular aplicatia si explicam ce face
+
+impartim in frontend si backend si explicam ce face fiecare (tot modular).
+
+de lucrat cu clase
+
+
++ forex

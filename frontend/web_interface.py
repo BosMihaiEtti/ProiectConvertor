@@ -1,69 +1,108 @@
-import streamlit as st
-import os
 import sys
-import time
+import os
+import streamlit as st
+import plotly.graph_objects as go
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
+# --- FIX IMPORT ---
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from backend.data_provider import RateProvider
 from backend.forex_engine import ForexMarket
 
-st.set_page_config(page_title="Convertor valutar & Forex", page_icon="💱")
+# --- CONFIGURARE ---
+st.set_page_config(page_title="FX Converter", page_icon="💱", layout="centered")
 
-css_file = os.path.join(os.path.dirname(__file__), "style.css")
-with open(css_file) as f:
-    st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
-if 'market' not in st.session_state:
-    provider = RateProvider()
-    st.session_state.market = ForexMarket(provider.fetch_rates())
+def load_css(file_name):
+    with open(file_name) as f:
+        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
-market = st.session_state.market
 
-st.markdown('<div class="title-text">Convertor valutar', unsafe_allow_html=True)
+def initialize_backend():
+    if 'market' not in st.session_state:
+        provider = RateProvider()
+        rates = provider.fetch_rates()
+        st.session_state['market'] = ForexMarket(rates)
+    return st.session_state['market']
 
-with st.container():
-    st.markdown('<div class="main-card">', unsafe_allow_html=True)
 
-    c1, c2, c3 = st.columns([3, 3, 3])
+def plot_candlestick_chart(df, from_curr, to_curr):
+    """Grafic curat, fara fundal."""
+    fig = go.Figure(data=[go.Candlestick(
+        x=df.index,
+        open=df['Open'], high=df['High'], low=df['Low'], close=df['Close'],
+        increasing_line_color='#26a69a',  # Verde placut
+        decreasing_line_color='#ef5350'  # Rosu placut
+    )])
+
+    fig.update_layout(
+        title=None,  # Fara titlu in grafic, il punem in HTML
+        xaxis_rangeslider_visible=False,
+        height=400,
+        margin=dict(l=10, r=10, t=10, b=10),
+        paper_bgcolor='rgba(0,0,0,0)',  # Transparent
+        plot_bgcolor='rgba(0,0,0,0)',  # Transparent
+        font=dict(color="#333"),  # Text inchis la culoare
+        xaxis=dict(showgrid=True, gridcolor='#e0e0e0'),
+        yaxis=dict(showgrid=True, gridcolor='#e0e0e0')
+    )
+    return fig
+
+
+def main():
+    css_path = os.path.join(os.path.dirname(__file__), "style.css")
+    load_css(css_path)
+    market = initialize_backend()
+    currency_list = market.available_currencies
+
+    # --- HEADER (Pe zona albastra) ---
+    st.markdown('<h1 class="hero-title">Convertor Valutar</h1>', unsafe_allow_html=True)
+    st.markdown('<p class="hero-subtitle">Cursuri în timp real și analiză de piață</p>', unsafe_allow_html=True)
+
+    # --- INPUTURI (Direct pe pagina, sub semicerc) ---
+    c1, c2, c3, c4 = st.columns([2, 2, 0.5, 2])
 
     with c1:
-        amount = st.number_input("Amount", value=1.0, min_value=0.01)
-
-    currencies = sorted(list(market.rates.keys()))
-    if "USD" in currencies: currencies.insert(0, currencies.pop(currencies.index("USD")))
+        st.markdown('<div class="field-label">Sumă</div>', unsafe_allow_html=True)
+        amount = st.number_input("Sum", value=100.0, step=10.0, label_visibility="collapsed")
 
     with c2:
-        from_curr = st.selectbox("From", currencies, index=0)
+        st.markdown('<div class="field-label">Din</div>', unsafe_allow_html=True)
+        idx_from = currency_list.index("EUR") if "EUR" in currency_list else 0
+        from_curr = st.selectbox("From", currency_list, index=idx_from, label_visibility="collapsed")
+
     with c3:
-        idx_to = currencies.index("EUR") if "EUR" in currencies else 1
-        to_curr = st.selectbox("To", currencies, index=idx_to)
+        st.markdown('<div class="arrow-container">➝</div>', unsafe_allow_html=True)
 
-    if st.button("Convert"):
+    with c4:
+        st.markdown('<div class="field-label">În</div>', unsafe_allow_html=True)
+        idx_to = currency_list.index("RON") if "RON" in currency_list else 1
+        to_curr = st.selectbox("To", currency_list, index=idx_to, label_visibility="collapsed")
+
+    # --- BUTON & REZULTAT ---
+    if st.button("CALCULEAZĂ", use_container_width=True):
         res = market.convert(amount, from_curr, to_curr)
-        unit_rate = market.convert(1, from_curr, to_curr)
+        st.markdown(f"""
+            <div class="result-box">
+                <div class="rate-text">{amount:.2f} {from_curr} =</div>
+                <div class="result-text">{res:,.4f} {to_curr}</div>
+            </div>
+        """, unsafe_allow_html=True)
+    else:
+        st.write("")
+        st.write("")
 
-        st.markdown("---")
-        st.markdown(f"<div class='rate-info'>● Live rate: 1 {from_curr} = {unit_rate:.4f} {to_curr}</div>",
+    # --- GRAFIC (Fara cutie alba, direct pe fundal) ---
+    st.markdown("---")
+
+    if from_curr != to_curr:
+        st.markdown(f'<div class="chart-header">Evoluție {from_curr} - {to_curr} (Candlestick)</div>',
                     unsafe_allow_html=True)
-        st.markdown(f"<div class='big-result'>{res:,.2f} {to_curr}</div>", unsafe_allow_html=True)
+        ohlc_data = market.get_ohlc_data(from_curr, to_curr, days=30)
+        fig = plot_candlestick_chart(ohlc_data, from_curr, to_curr)
+        st.plotly_chart(fig, use_container_width=True)
+    else:
+        st.caption("Alege monede diferite pentru a vedea graficul.")
 
-    st.markdown('</div>', unsafe_allow_html=True)
 
-st.write("")
-st.markdown("### 📉 Forex")
-
-col_btn, col_info = st.columns([1, 2])
-
-with col_btn:
-    if st.button("Simulate Market Volatility"):
-        with st.spinner("Updating market rates..."):
-            market.simulate_volatility()
-            time.sleep(0.5)
-        st.success("Rates Updated!")
-        time.sleep(0.5)
-        st.rerun()
-
-with col_info:
-    st.info("Apasă pe butonul din stânga pentru a simula fluctuațiile pieței (+/- 0.5%).")
-    st.write(f"**Current USD Rates:** EUR: {market.rates.get('EUR', 0):.4f} | RON: {market.rates.get('RON', 0):.4f}")
+if __name__ == "__main__":
+    main()

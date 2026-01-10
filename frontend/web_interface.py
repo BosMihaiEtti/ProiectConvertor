@@ -30,8 +30,8 @@ def plot_candlestick_chart(df, from_curr, to_curr):
     fig = go.Figure(data=[go.Candlestick(
         x=df.index,
         open=df['Open'], high=df['High'], low=df['Low'], close=df['Close'],
-        increasing_line_color='#26a69a',  # Verde placut
-        decreasing_line_color='#ef5350'  # Rosu placut
+        increasing_line_color='#26a69a',  # Verde 
+        decreasing_line_color='#ef5350'  # Rosu 
     )])
 
     fig.update_layout(
@@ -91,7 +91,7 @@ def main():
         st.write("")
         st.write("")
 
-    # --- GRAFIC (Fara cutie alba, direct pe fundal) ---
+    # --- GRAFIC  ---
     st.markdown("---")
 
     if from_curr != to_curr:

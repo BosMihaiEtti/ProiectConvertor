@@ -34,7 +34,7 @@ p, .hero-subtitle {
     margin-bottom: 60px !important;
 }
 
-/* --- INPUT-URI (CURATE, FARA CHENAR GRI) --- */
+/* --- INPUT-URI ( FARA CHENAR GRI) --- */
 .field-label {
     font-size: 0.85rem;
     color: #ffffff !important;
@@ -50,11 +50,11 @@ div[data-baseweb="input"], div[data-baseweb="select"] {
     background-color: #ffffff;
     border: none !important; /* Fortam eliminarea bordurii */
     border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* Umbra fina in loc de chenar */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* Umbra in loc de chenar */
     height: 50px;
 }
 
-/* Fortam interiorul sa fie alb curat */
+/* Fortam interiorul sa fie alb  */
 div[data-baseweb="select"] > div {
     background-color: #ffffff !important;
     border: none !important;
@@ -121,7 +121,7 @@ div.stButton > button:hover {
     font-size: 1.3rem;
 }
 
-/* --- TITLU GRAFIC (PASTILA ALBA) --- */
+/* --- TITLU GRAFIC  --- */
 .chart-header {
     background-color: white;
     color: #004494 !important;

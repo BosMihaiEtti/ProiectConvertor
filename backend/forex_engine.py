@@ -39,10 +39,10 @@ class ForexMarket:
         last_close = current_rate
 
         for _ in range(days):
-            # Simulam o miscare a zilei (random walk)
+            # Simulam o miscare a zilei 
             change = np.random.normal(0, volatility)
 
-            # Calculam valorile zilei (simulat)
+            # Calculam valorile zilei 
             close_price = last_close
             open_price = close_price - change  # Ziua anterioara s-a inchis aici
 
@@ -53,7 +53,7 @@ class ForexMarket:
             ohlc_data.append([open_price, high_price, low_price, close_price])
             last_close = open_price  # Pretul de deschidere de azi devine inchiderea de ieri
 
-        # Inversam ordinea cronologica (de la vechi la nou)
+        # Inversam ordinea cronologica 
         ohlc_data.reverse()
 
         df = pd.DataFrame(data=ohlc_data, index=dates, columns=['Open', 'High', 'Low', 'Close'])

@@ -15,7 +15,7 @@ CERINTE DE SISTEM
 
 LIBRARII NECESARE
 -----------------
-Urmatoarele pachete Python sunt necesare pentru functionarea aplicatiei:
+Librariile necesare sunt listate in fisierul 'requirements.txt':
 - streamlit
 - pandas
 - numpy
@@ -24,34 +24,44 @@ Urmatoarele pachete Python sunt necesare pentru functionarea aplicatiei:
 
 INSTALARE
 ---------
-1. Deschideti terminalul in folderul radacina al proiectului.
+Exista doua metode de instalare. Alegeti una dintre ele:
 
-2. (Optional dar recomandat) Creati un mediu virtual:
-   Windows: python -m venv venv
-   Mac/Linux: python3 -m venv venv
+METODA 1: AUTOMATA (Recomandat pentru Linux/macOS)
+1. Deschideti terminalul in folderul radacina al proiectului.
+2. Oferiti drepturi de executie scriptului de instalare:
+   chmod +x install.sh
+3. Rulati scriptul (acesta creeaza mediul virtual si instaleaza totul):
+   ./install.sh
+
+METODA 2: MANUALA (Windows / Linux)
+1. Deschideti terminalul in folderul radacina.
+
+2. Creati un mediu virtual:
+   Windows: python -m venv .venv
+   Linux/Mac: python3 -m venv .venv
 
 3. Activati mediul virtual:
-   Windows: .\venv\Scripts\activate
-   Mac/Linux: source venv/bin/activate
+   Windows: .\.venv\Scripts\activate
+   Linux/Mac: source .venv/bin/activate
 
-4. Instalati dependintele:
-   pip install streamlit pandas numpy plotly requests
+4. Instalati dependintele din fisierul de configurare:
+   pip install -r requirements.txt
 
 RULARE APLICATIE
 ----------------
-Pentru a porni interfata grafica, urmati acesti pasi in terminal:
+Important: Aplicatia trebuie pornita din folderul radacina (principal) pentru a
+putea accesa corect modulele din backend.
 
-1. Navigati in folderul de frontend:
-   cd frontend
+1. Asigurati-va ca mediul virtual este activat (vedeti pasul 3 de mai sus).
 
-2. Porniti aplicatia folosind Streamlit:
-   streamlit run web_interface.py
+2. Porniti aplicatia cu comanda:
+   streamlit run frontend/web_interface.py
 
-Aplicatia se va deschide automat in browserul implicit la adresa http://localhost:8501
+Aplicatia se va deschide automat in browser la adresa http://localhost:8501
 
 AUTORI (ECHIPA DE PROIECT)
 --------------------------
 1. Bosie Mihai
 2. Dobrescu Andrei Alexandru
 3. Ciocirlan Mario Florin
-4. Nicolaie Rares
+4. Nicolaie Rares George

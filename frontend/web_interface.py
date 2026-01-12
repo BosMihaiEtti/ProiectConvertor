@@ -30,18 +30,18 @@ def plot_candlestick_chart(df, from_curr, to_curr):
     fig = go.Figure(data=[go.Candlestick(
         x=df.index,
         open=df['Open'], high=df['High'], low=df['Low'], close=df['Close'],
-        increasing_line_color='#26a69a',  # Verde 
-        decreasing_line_color='#ef5350'  # Rosu 
+        increasing_line_color='#26a69a',
+        decreasing_line_color='#ef5350'
     )])
 
     fig.update_layout(
-        title=None,  # Fara titlu in grafic, il punem in HTML
+        title=None,
         xaxis_rangeslider_visible=False,
         height=400,
         margin=dict(l=10, r=10, t=10, b=10),
-        paper_bgcolor='rgba(0,0,0,0)',  # Transparent
-        plot_bgcolor='rgba(0,0,0,0)',  # Transparent
-        font=dict(color="#333"),  # Text inchis la culoare
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)',
+        font=dict(color="#333"),
         xaxis=dict(showgrid=True, gridcolor='#e0e0e0'),
         yaxis=dict(showgrid=True, gridcolor='#e0e0e0')
     )
@@ -54,11 +54,11 @@ def main():
     market = initialize_backend()
     currency_list = market.available_currencies
 
-    # --- HEADER (Pe zona albastra) ---
+    # --- HEADER ---
     st.markdown('<h1 class="hero-title">Convertor Valutar</h1>', unsafe_allow_html=True)
     st.markdown('<p class="hero-subtitle">Cursuri în timp real și analiză de piață</p>', unsafe_allow_html=True)
 
-    # --- INPUTURI (Direct pe pagina, sub semicerc) ---
+    # --- INPUTURI ---
     c1, c2, c3, c4 = st.columns([2, 2, 0.5, 2])
 
     with c1:

@@ -34,7 +34,7 @@ p, .hero-subtitle {
     margin-bottom: 60px !important;
 }
 
-/* --- INPUT-URI ( FARA CHENAR GRI) --- */
+/* --- INPUT-URI  --- */
 .field-label {
     font-size: 0.85rem;
     color: #ffffff !important;
@@ -45,16 +45,15 @@ p, .hero-subtitle {
     margin-left: 5px;
 }
 
-/* Aici eliminam chenarul gri/contrastul nedorit */
+
 div[data-baseweb="input"], div[data-baseweb="select"] {
     background-color: #ffffff;
-    border: none !important; /* Fortam eliminarea bordurii */
+    border: none !important;
     border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* Umbra in loc de chenar */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     height: 50px;
 }
 
-/* Fortam interiorul sa fie alb  */
 div[data-baseweb="select"] > div {
     background-color: #ffffff !important;
     border: none !important;
@@ -68,7 +67,7 @@ div[data-baseweb="select"] > div {
     opacity: 0.9;
 }
 
-/* --- BUTONUL (FIXAT GROSIME SI TEXT) --- */
+
 div.stButton {
     text-align: center;
     margin-top: 30px;
@@ -80,12 +79,12 @@ div.stButton > button {
     font-size: 1.1rem;
     font-weight: 700;
 
-    /* FIX PENTRU TEXT TAIAT: */
+
     width: auto !important;
     min-width: 200px;
-    height: auto !important;     /* Lasam inaltimea automata */
+    height: auto !important;
     padding: 12px 40px !important; 
-    line-height: 1.2 !important;   /* Asigura centrarea verticala a textului */
+    line-height: 1.2 !important;
 
     border-radius: 50px;
     border: none;
@@ -99,7 +98,7 @@ div.stButton > button:hover {
     background: #0091ea;
 }
 
-/* --- REZULTAT --- */
+
 .result-box {
     text-align: center;
     margin-top: 40px;
